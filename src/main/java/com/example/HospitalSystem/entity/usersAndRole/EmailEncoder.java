@@ -1,0 +1,26 @@
+package com.example.HospitalSystem.entity.usersAndRole;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class EmailEncoder {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
+
+    private String encodedEmail;
+    private LocalDate expiryDate;
+    private Boolean status;
+}
