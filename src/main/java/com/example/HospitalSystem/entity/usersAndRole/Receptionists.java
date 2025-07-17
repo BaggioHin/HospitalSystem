@@ -1,7 +1,10 @@
 package com.example.HospitalSystem.entity.usersAndRole;
 
+import com.example.HospitalSystem.entity.appointments.Schedules;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,4 +22,7 @@ public class Receptionists {
     @OneToOne
     @JoinColumn(name = "ueser_id",nullable = false)
     private Users user;
+
+    @OneToMany(mappedBy = "receptionist")
+    private List<Schedules> schedulesList;
 }

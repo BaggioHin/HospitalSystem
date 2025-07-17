@@ -1,4 +1,8 @@
 package com.example.HospitalSystem.controller;
 
-public class DoctorSchedule {
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class DoctorController {
+
 }

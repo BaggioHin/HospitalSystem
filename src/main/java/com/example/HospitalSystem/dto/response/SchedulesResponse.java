@@ -11,7 +11,8 @@ import java.time.LocalTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateSchedulesResponse {
+public class SchedulesResponse {
+    private String id;
     private LocalDate workingDate;
     private LocalTime startTime;
     private String endTime;

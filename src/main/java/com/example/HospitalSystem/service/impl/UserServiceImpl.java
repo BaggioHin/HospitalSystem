@@ -1,6 +1,5 @@
 package com.example.HospitalSystem.service.impl;
 
-import com.example.HospitalSystem.dto.request.SignIn;
 import com.example.HospitalSystem.dto.request.UserRequest;
 import com.example.HospitalSystem.dto.response.UserResponse;
 import com.example.HospitalSystem.entity.usersAndRole.Users;
@@ -10,7 +9,6 @@ import com.example.HospitalSystem.mapper.UserMapper;
 import com.example.HospitalSystem.repository.UserRepository;
 import com.example.HospitalSystem.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Internal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
 //    Search by patients'username
     @Override
-    @PreAuthorize()
+//    @PreAuthorize()
     public UserResponse getUserByUsername(String username) {
         Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
