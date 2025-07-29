@@ -1,9 +1,6 @@
 package com.example.HospitalSystem.entity.appointments;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -20,4 +17,8 @@ public class prescription_items {
     private String dosage;
     private String duration;
     private String note;
+
+    @ManyToOne
+    @JoinColumn(name = "prescriptions")
+    private prescriptions prescriptions;
 }

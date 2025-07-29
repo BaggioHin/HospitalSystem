@@ -11,7 +11,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Roles {
+public class roles {
     @Id
     private String name;
     private String description;
@@ -22,5 +22,5 @@ public class Roles {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permisstion_id")
     )
-    private Set<Permisstions> permisstions;
+    private Set<com.example.HospitalSystem.entity.usersAndRole.permisstions> permisstions;
 }

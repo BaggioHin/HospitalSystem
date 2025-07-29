@@ -62,13 +62,23 @@ public class SecurityConfig {
 
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        jwtGrantedAuthoritiesConverter.setAuthorityPrefix("");
-        jwtGrantedAuthoritiesConverter.setAuthoritiesClaimName("SCOPE");
+        JwtGrantedAuthoritiesConverter scopesConverter = new JwtGrantedAuthoritiesConverter();
+        scopesConverter.setAuthorityPrefix("");
+        scopesConverter.setAuthoritiesClaimName("SCOPE");
+
+        JwtGrantedAuthoritiesConverter specialityConverter = new JwtGrantedAuthoritiesConverter();
+        specialityConverter.setAuthorityPrefix("");
+        specialityConverter.setAuthoritiesClaimName("SPECIALITY");
 
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
-
+//        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwt->{
+            // Lấy quyền từ scopesConverter
+            var authorities = scopesConverter.convert(jwt);
+            // Thêm quyền từ specialityConverter
+            authorities.addAll(specialityConverter.convert(jwt));
+            return authorities;
+        });
         return jwtAuthenticationConverter;
     }
 

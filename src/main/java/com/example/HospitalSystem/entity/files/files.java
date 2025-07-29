@@ -1,5 +1,6 @@
 package com.example.HospitalSystem.entity.files;
 
+import com.example.HospitalSystem.entity.usersAndRole.users;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,7 +26,8 @@ public class files {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private files uploaded_by;
+    private users uploaded_by;
+
 
 //    cloud_providers research this problem
 }

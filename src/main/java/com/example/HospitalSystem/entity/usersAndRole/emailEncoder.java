@@ -11,14 +11,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class EmailEncoder {
+public class emailEncoder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Users user;
+    private users user;
 
     private String encodedEmail;
     private LocalDate expiryDate;

@@ -13,7 +13,7 @@ import java.util.Date;
 @Setter
 @ToString
 @Builder
-public class InvalidationTokenEntity {
+public class invalidationTokenEntity {
     @Id
     String id;
     Date expiryTime;

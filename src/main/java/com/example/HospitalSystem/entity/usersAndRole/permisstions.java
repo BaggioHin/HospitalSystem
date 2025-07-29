@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Permisstions {
+public class permisstions {
     @Id
     private String id;
     private String description;

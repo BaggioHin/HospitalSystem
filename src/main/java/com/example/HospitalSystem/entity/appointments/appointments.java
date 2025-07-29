@@ -1,8 +1,14 @@
 package com.example.HospitalSystem.entity.appointments;
 
+import com.example.HospitalSystem.constant.AppointmentStatus;
+import com.example.HospitalSystem.constant.BookingType;
+import com.example.HospitalSystem.constant.PaymentStatus;
 import com.example.HospitalSystem.entity.paymentsAndInvoices.deposits;
 import com.example.HospitalSystem.entity.paymentsAndInvoices.invoices;
 import com.example.HospitalSystem.entity.services.serviceResults;
+import com.example.HospitalSystem.entity.usersAndRole.doctors;
+import com.example.HospitalSystem.entity.usersAndRole.patients;
+import com.example.HospitalSystem.entity.usersAndRole.receptionists;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,12 +25,27 @@ public class appointments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
+    private LocalDate appointmentDate;
     private LocalDate appointmentTime;
-    private String bookingType;
+    @Enumerated(EnumType.STRING)
+    private BookingType bookingType;
     private String notes;
-    private String payment_status;
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus payment_status;
+
+    @ManyToOne
+    @JoinColumn(name = "receptionist_id")
+    private receptionists receptionist;
+
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
+    private patients patient;
+
+    @ManyToOne
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private doctors doctor;
 
     @OneToMany(mappedBy = "appointment")
     private List<serviceResults> serviceResults;

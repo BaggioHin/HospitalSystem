@@ -1,6 +1,5 @@
 package com.example.HospitalSystem.dto.request;
 
-import jakarta.persistence.Entity;
 import lombok.*;
 
 @Data

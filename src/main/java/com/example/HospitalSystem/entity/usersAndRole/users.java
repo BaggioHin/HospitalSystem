@@ -14,7 +14,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Users {
+public class users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,16 +29,16 @@ public class Users {
     private String gender;
 
     @OneToOne(mappedBy = "user")
-    private Doctors doctor;
+    private doctors doctor;
 
     @OneToOne(mappedBy = "user")
-    private Nurses nurse;
+    private nurses nurse;
 
     @OneToOne(mappedBy = "user")
-    private Patients patient;
+    private patients patient;
 
     @OneToOne(mappedBy = "user")
-    private Receptionists receptionist;
+    private receptionists receptionist;
 
     @ManyToMany
     @JoinTable(
@@ -46,11 +46,11 @@ public class Users {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private Set<Roles> roles;
+    private Set<com.example.HospitalSystem.entity.usersAndRole.roles> roles;
 
     @OneToMany(mappedBy = "user")
     private List<audit_logs> auditLog;
 
     @OneToMany(mappedBy = "user")
-    private Set<EmailEncoder> emailEncoder;
+    private Set<com.example.HospitalSystem.entity.usersAndRole.emailEncoder> emailEncoder;
 }
