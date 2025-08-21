@@ -45,10 +45,10 @@ public class PatientsController {
                 .build();
     }
 
-//    @PostMapping("/deletePatient/{id}")
-//    public ApiResponse<Void> deletePatient(@PathVariable Long id){
-//        return ApiResponse.<Void>builder()
-//                .result(patientService.deletePatient(id))
-//                .build();
-//    }
+    @DeleteMapping("/deletePatient/{id}")
+    public ApiResponse<Void> deletePatient(@PathVariable Long id){
+        return ApiResponse.<Void>builder()
+                .result(patientService.deletePatient(id))
+                .build();
+    }
 }

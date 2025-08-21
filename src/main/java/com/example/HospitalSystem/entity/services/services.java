@@ -1,6 +1,6 @@
 package com.example.HospitalSystem.entity.services;
 
-import com.example.HospitalSystem.entity.paymentsAndInvoices.invoiceItems;
+import com.example.HospitalSystem.entity.paymentsAndInvoices.InvoiceItems;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,5 +29,5 @@ public class services {
     private List<serviceResults> serviceResults;
 
     @OneToOne(mappedBy = "service")
-    private invoiceItems invoiceItems;
+    private InvoiceItems invoiceItems;
 }

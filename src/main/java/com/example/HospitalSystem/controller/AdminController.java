@@ -17,7 +17,7 @@ public class AdminController {
     private AdminService adminService;
 
 //    Get Schedules
-    @GetMapping("/getSchedules/{id}")
+    @GetMapping("/getSchedules/{userId}")
     ApiResponse<List<SchedulesResponse>> getSchedules(@PathVariable Long userId) {
         return ApiResponse.<List<SchedulesResponse>>builder()
                 .result(adminService.getSchedules(userId))

@@ -1,6 +1,6 @@
 package com.example.HospitalSystem.entity.services;
 
-import com.example.HospitalSystem.entity.appointments.appointments;
+import com.example.HospitalSystem.entity.appointments.Appointments;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,7 +27,7 @@ public class serviceResults {
 
     @ManyToOne
     @JoinColumn(name = "appointment_id")
-    private appointments appointment;
+    private Appointments appointment;
 
     @OneToMany(mappedBy = "serviceResult")
     private List<serviceImages> serviceImages;

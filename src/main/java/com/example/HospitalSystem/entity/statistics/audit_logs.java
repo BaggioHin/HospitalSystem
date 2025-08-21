@@ -1,6 +1,6 @@
 package com.example.HospitalSystem.entity.statistics;
 
-import com.example.HospitalSystem.entity.usersAndRole.users;
+import com.example.HospitalSystem.entity.usersAndRole.Users;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,5 +25,5 @@ public class audit_logs {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private users user;
+    private Users user;
 }

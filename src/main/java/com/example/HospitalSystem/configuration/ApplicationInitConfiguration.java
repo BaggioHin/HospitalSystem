@@ -1,8 +1,8 @@
 package com.example.HospitalSystem.configuration;
 
 import com.example.HospitalSystem.constant.PredefinedRole;
-import com.example.HospitalSystem.entity.usersAndRole.roles;
-import com.example.HospitalSystem.entity.usersAndRole.users;
+import com.example.HospitalSystem.entity.usersAndRole.Roles;
+import com.example.HospitalSystem.entity.usersAndRole.Users;
 import com.example.HospitalSystem.repository.RoleRepository;
 import com.example.HospitalSystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,20 +39,20 @@ public class ApplicationInitConfiguration {
     ApplicationRunner applicationRunner() {
         return args -> {
             if(userRepository.findByUsername(ADMIN_USER_NAME).isEmpty()) {
-                roleRepository.save(roles.builder()
+                roleRepository.save(Roles.builder()
                         .name(PredefinedRole.USER_ROLE)
                         .description("User role")
                         .build());
 
-                roles adminRole = roleRepository.save(roles.builder()
+                Roles adminRole = roleRepository.save(Roles.builder()
                         .name(PredefinedRole.ADMIN_ROLE)
                         .description("Admin role")
                         .build());
 
-                var roles = new HashSet<com.example.HospitalSystem.entity.usersAndRole.roles>();
+                var roles = new HashSet<Roles>();
                 roles.add(adminRole);
 
-                users user = users.builder()
+                Users user = Users.builder()
                         .username(ADMIN_USER_NAME)
                         .password(passwordEncoder.encode(ADMIN_PASSWORD))
                         .roles(roles)

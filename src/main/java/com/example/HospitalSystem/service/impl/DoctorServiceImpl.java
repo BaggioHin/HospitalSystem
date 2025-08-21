@@ -4,8 +4,8 @@ import com.example.HospitalSystem.constant.EmployeeStatus;
 import com.example.HospitalSystem.dto.request.InfDoctorRequest;
 import com.example.HospitalSystem.dto.response.DoctorDetailResponse;
 import com.example.HospitalSystem.dto.response.DoctorResponse;
-import com.example.HospitalSystem.entity.usersAndRole.doctors;
-import com.example.HospitalSystem.entity.usersAndRole.users;
+import com.example.HospitalSystem.entity.usersAndRole.Doctors;
+import com.example.HospitalSystem.entity.usersAndRole.Users;
 import com.example.HospitalSystem.mapper.DoctorMapper;
 import com.example.HospitalSystem.mapper.UserMapper;
 import com.example.HospitalSystem.repository.DoctorRepository;
@@ -34,13 +34,13 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public DoctorDetailResponse getDoctorDetail(Long id) {
-        doctors doctors = doctorRepository.findDoctorById(id);
-        return doctorMapper.toDoctorDetailResponse(doctors);
+        Doctors Doctors = doctorRepository.findDoctorById(id);
+        return doctorMapper.toDoctorDetailResponse(Doctors);
     }
 
     @Override
     public List<DoctorResponse> getListDoctor(String name) {
-        List<doctors> doctorsList = doctorRepository.findDoctorsWithUserFullName(name);
+        List<Doctors> doctorsList = doctorRepository.findDoctorsWithUserFullName(name);
 
         List<DoctorResponse> doctorResponses = doctorsList.stream()
                 .map(doctor -> {
@@ -56,38 +56,38 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public DoctorDetailResponse addDoctor(InfDoctorRequest request) {
-        doctors doctors= doctorMapper.DtotoDoctor(request);
-        users user = userMapper.DtoDoctorsToUser(request);
+        Doctors Doctors= doctorMapper.DtotoDoctor(request);
+        Users user = userMapper.DtoDoctorsToUser(request);
         userRepository.save(user);
-        doctors.setUser(user);
-        doctorRepository.save(doctors);
-        return doctorMapper.toDoctorDetailResponse(doctors);
+        Doctors.setUser(user);
+        doctorRepository.save(Doctors);
+        return doctorMapper.toDoctorDetailResponse(Doctors);
     }
 
     @PreAuthorize("isAuthenticated() and #id == authentication.principal.id")
     @Override
     public DoctorDetailResponse updateInfDoctor(InfDoctorRequest doctorDetail, Long id) {
-        doctors doctors = doctorRepository.findById(id).get();
-        doctorMapper.updateDoctor(doctorDetail,doctors);
-        users user = doctors.getUser();
+        Doctors Doctors = doctorRepository.findById(id).get();
+        doctorMapper.updateDoctor(doctorDetail,Doctors);
+        Users user = Doctors.getUser();
         userMapper.UpdateUserByDoctor(doctorDetail,user);
         userRepository.save(user);
-        doctorRepository.save(doctors);
-        return doctorMapper.toDoctorDetailResponse(doctors);
+        doctorRepository.save(Doctors);
+        return doctorMapper.toDoctorDetailResponse(Doctors);
     }
 
     @Override
     public Void deleteDoctor(Long id) {
-        doctors doctors = doctorRepository.findDoctorById(id);
-        doctors.setStatus(EmployeeStatus.ON_LEAVE);
+        Doctors Doctors = doctorRepository.findDoctorById(id);
+        Doctors.setStatus(EmployeeStatus.ON_LEAVE);
         log.info("Successfull Delete Doctor " + id);
         return null;
     }
 
     @Override
     public Void updateDoctorStatus(Long id) {
-        doctors doctors = doctorRepository.findDoctorById(id);
-        doctors.setStatus(EmployeeStatus.DAY_OFF);
+        Doctors Doctors = doctorRepository.findDoctorById(id);
+        Doctors.setStatus(EmployeeStatus.DAY_OFF);
         log.info("Successfull Update Doctor " + id);
         return null;
     }

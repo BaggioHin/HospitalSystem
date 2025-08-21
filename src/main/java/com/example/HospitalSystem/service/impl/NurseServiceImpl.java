@@ -3,8 +3,8 @@ package com.example.HospitalSystem.service.impl;
 import com.example.HospitalSystem.constant.EmployeeStatus;
 import com.example.HospitalSystem.dto.request.InfNurseRequest;
 import com.example.HospitalSystem.dto.response.NurseResponse;
-import com.example.HospitalSystem.entity.usersAndRole.nurses;
-import com.example.HospitalSystem.entity.usersAndRole.users;
+import com.example.HospitalSystem.entity.usersAndRole.Nurses;
+import com.example.HospitalSystem.entity.usersAndRole.Users;
 import com.example.HospitalSystem.mapper.NurseMapper;
 import com.example.HospitalSystem.mapper.UserMapper;
 import com.example.HospitalSystem.repository.NurseRepository;
@@ -39,7 +39,7 @@ public class NurseServiceImpl implements NurseService {
     @Override
     public Page<NurseResponse> getAllNurses(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<nurses> nursesPage = nurseRepository.findAll(pageable);
+        Page<Nurses> nursesPage = nurseRepository.findAll(pageable);
 
         List<NurseResponse> nurseResponses = nursesPage.getContent().stream()
                 .map(nurseMapper::toNurseResponse)
@@ -49,7 +49,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public List<NurseResponse> getListNurse(String name) {
-        List<nurses> nursesList = nurseRepository.findNurseWithUserFullName(name);
+        List<Nurses> nursesList = nurseRepository.findNurseWithUserFullName(name);
 
         List<NurseResponse> nurseResponses = nursesList.stream()
                 .map(nurses -> {
@@ -65,8 +65,8 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public NurseResponse addNurse(InfNurseRequest request) {
-        nurses nurse = nurseMapper.DtotoNurse(request);
-        users user = userMapper.DtoNurseToUser(request);
+        Nurses nurse = nurseMapper.DtotoNurse(request);
+        Users user = userMapper.DtoNurseToUser(request);
         userRepository.save(user);
         nurse.setUser(user);
         nurseRepository.save(nurse);
@@ -75,9 +75,9 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public NurseResponse updateInfNurse(InfNurseRequest request, Long id) {
-        nurses nurse = nurseRepository.findById(id).get();
+        Nurses nurse = nurseRepository.findById(id).get();
         nurseMapper.updateNurse(request,nurse);
-        users user = nurse.getUser();
+        Users user = nurse.getUser();
         userMapper.UpdateUserByNurse(request,user);
         userRepository.save(user);
         nurseRepository.save(nurse);
@@ -86,7 +86,7 @@ public class NurseServiceImpl implements NurseService {
 
     @Override
     public Void updateNurseStatus(Long id) {
-        nurses nurse = nurseRepository.findById(id).get();
+        Nurses nurse = nurseRepository.findById(id).get();
         nurse.setStatus(EmployeeStatus.DAY_OFF);
         nurseRepository.save(nurse);
         return null;

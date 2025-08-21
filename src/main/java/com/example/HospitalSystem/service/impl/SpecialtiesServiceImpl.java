@@ -3,8 +3,8 @@ import com.example.HospitalSystem.dto.request.UpdateSpecialty;
 import com.example.HospitalSystem.dto.response.DisplaySpecialtiesResponse;
 import com.example.HospitalSystem.dto.response.DoctorResponse;
 import com.example.HospitalSystem.dto.response.SpecialtiesResponse;
-import com.example.HospitalSystem.entity.appointments.specialties;
-import com.example.HospitalSystem.entity.usersAndRole.doctors;
+import com.example.HospitalSystem.entity.appointments.Specialties;
+import com.example.HospitalSystem.entity.usersAndRole.Doctors;
 import com.example.HospitalSystem.mapper.DoctorMapper;
 import com.example.HospitalSystem.mapper.SpecialtiesMapper;
 import com.example.HospitalSystem.repository.SpecialtiesRepository;
@@ -33,7 +33,7 @@ public class SpecialtiesServiceImpl implements SpecialtiesService {
 
     @Override
     public List<DisplaySpecialtiesResponse> displaySpecialties() {
-        List<specialties> specialties = specialtiesRepository.findAll();
+        List<Specialties> specialties = specialtiesRepository.findAll();
         List<DisplaySpecialtiesResponse> responses = specialties.stream()
                 .map(specialty -> {
                     return new DisplaySpecialtiesResponse(
@@ -48,14 +48,14 @@ public class SpecialtiesServiceImpl implements SpecialtiesService {
 
     @Override
     public SpecialtiesResponse getSpecialties(Long id) {
-        specialties specialties = specialtiesRepository.findById(id).get();
+        Specialties specialties = specialtiesRepository.findById(id).get();
         return specialtiesMapper.specialtiesToResponse(specialties);
     }
 
     @Override
     public SpecialtiesResponse UpdateSpecialties(UpdateSpecialty updateSpecialty) {
         Long id = updateSpecialty.getId();
-        specialties specialtie = specialtiesRepository.findById(id).get();
+        Specialties specialtie = specialtiesRepository.findById(id).get();
         specialtiesRepository.save(specialtiesMapper
                 .updateSpecialtyFromResquest(updateSpecialty,specialtie));
         return specialtiesMapper.specialtiesToResponse(specialtie);
@@ -66,14 +66,14 @@ public class SpecialtiesServiceImpl implements SpecialtiesService {
 //        int totalPages = specialtiesRepository.findAll(PageRequest.of(0, size)).getTotalPages();
 
         Pageable pageable = PageRequest.of(currentPage, size);
-        Page<doctors> doctorPage = specialtiesRepository.findBySpecialtyId(id, pageable);
+        Page<Doctors> doctorPage = specialtiesRepository.findBySpecialtyId(id, pageable);
 
         List<DoctorResponse> doctorResponses = doctorPage.getContent().stream()
                 .map(doctorMapper::toDoctorResponse)
                 .collect(Collectors.toList());
 
 //        Map<String, List<DoctorResponse>> pages = new LinkedHashMap<>();
-//        pages.put("page_" + currentPage, doctors);
+//        pages.put("page_" + currentPage, Doctors);
 //
 //        PaginatedDoctorsResponse.Meta meta = new PaginatedDoctorsResponse.Meta(
 //                currentPage,

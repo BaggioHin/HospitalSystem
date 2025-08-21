@@ -2,11 +2,9 @@ package com.example.HospitalSystem.service.impl;
 
 import com.example.HospitalSystem.constant.EmployeeStatus;
 import com.example.HospitalSystem.dto.request.InfReceptionistRequest;
-import com.example.HospitalSystem.dto.response.NurseResponse;
 import com.example.HospitalSystem.dto.response.ReceptionistResponse;
-import com.example.HospitalSystem.entity.usersAndRole.nurses;
-import com.example.HospitalSystem.entity.usersAndRole.receptionists;
-import com.example.HospitalSystem.entity.usersAndRole.users;
+import com.example.HospitalSystem.entity.usersAndRole.Receptionists;
+import com.example.HospitalSystem.entity.usersAndRole.Users;
 import com.example.HospitalSystem.mapper.ReceptionistMapper;
 import com.example.HospitalSystem.mapper.UserMapper;
 import com.example.HospitalSystem.repository.ReceptionistRepository;
@@ -41,7 +39,7 @@ public class ReceptionistServiceImpl implements ReceptionistService {
     @Override
     public Page<ReceptionistResponse> getAllReceptionist(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<receptionists> receptionistsPage = receptionistRepository.findAll(pageable);
+        Page<Receptionists> receptionistsPage = receptionistRepository.findAll(pageable);
 
         List<ReceptionistResponse> receptionistsResponses =  receptionistsPage.getContent().stream()
                 .map(receptionistMapper::toReceptionistResponse)
@@ -51,11 +49,11 @@ public class ReceptionistServiceImpl implements ReceptionistService {
 
     @Override
     public List<ReceptionistResponse> getListReceptionistList(String name) {
-        List<receptionists> receptionists = receptionistRepository.findReceptionistWithUserFullName(name);
+        List<Receptionists> receptionists = receptionistRepository.findReceptionistWithUserFullName(name);
 
         List<ReceptionistResponse> receptionistResponses = receptionists.stream()
                 .map(receptionist -> {
-                    NurseResponse response = receptionistMapper.toNurseResponse(receptionist);
+                    ReceptionistResponse response = receptionistMapper.toReceptionistResponse(receptionist);
                     response.setUsername(
                             receptionist.getUser().getFirstName() + " " + receptionist.getUser().getLastName()
                     );
@@ -67,8 +65,8 @@ public class ReceptionistServiceImpl implements ReceptionistService {
 
     @Override
     public ReceptionistResponse addReceptionist(InfReceptionistRequest infReceptionistRequest) {
-        receptionists receptionist = receptionistMapper.DtotoReceptionist(infReceptionistRequest);
-        users user = userMapper.DtoReceptionistToUser(infReceptionistRequest);
+        Receptionists receptionist = receptionistMapper.DtotoReceptionist(infReceptionistRequest);
+        Users user = userMapper.DtoReceptionistToUser(infReceptionistRequest);
         userRepository.save(user);
         receptionist.setUser(user);
         receptionistRepository.save(receptionist);
@@ -77,9 +75,9 @@ public class ReceptionistServiceImpl implements ReceptionistService {
 
     @Override
     public ReceptionistResponse updateInfReceptionist(InfReceptionistRequest infReceptionistRequest, Long id) {
-        receptionists receptionist = receptionistRepository.findById(id).get();
+        Receptionists receptionist = receptionistRepository.findById(id).get();
         receptionistMapper.updateReceptionist(infReceptionistRequest,receptionist);
-        users user = receptionist.getUser();
+        Users user = receptionist.getUser();
         userMapper.UpdateUserByReceptionists(infReceptionistRequest,user);
         userRepository.save(user);
         receptionistRepository.save(receptionist);
@@ -88,7 +86,7 @@ public class ReceptionistServiceImpl implements ReceptionistService {
 
     @Override
     public Void deleteReceptionist(Long id) {
-        receptionists receptionists = receptionistRepository.findById(id).get();
+        Receptionists receptionists = receptionistRepository.findById(id).get();
         receptionists.setStatus(EmployeeStatus.DAY_OFF);
         receptionistRepository.save(receptionists);
         return null;

@@ -2,8 +2,8 @@ package com.example.HospitalSystem.service.impl;
 import com.example.HospitalSystem.Utils.OtpGenerator;
 import com.example.HospitalSystem.dto.response.CheckCodeResponse;
 import com.example.HospitalSystem.dto.response.SecretPasswordResponse;
-import com.example.HospitalSystem.entity.usersAndRole.emailEncoder;
-import com.example.HospitalSystem.entity.usersAndRole.users;
+import com.example.HospitalSystem.entity.usersAndRole.EmailEncoder;
+import com.example.HospitalSystem.entity.usersAndRole.Users;
 import com.example.HospitalSystem.exception.AppException;
 import com.example.HospitalSystem.exception.ErrorCode;
 import com.example.HospitalSystem.repository.EmailEncoderRepository;
@@ -57,16 +57,16 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public SecretPasswordResponse sendCode(String email) {
-        Optional<users> optionalUser = userRepository.findByEmail(email);
+        Optional<Users> optionalUser = userRepository.findByEmail(email);
         if(optionalUser.isEmpty()) {
             throw new AppException(ErrorCode.USER_NOT_EXISTED);
         }
-        Set<emailEncoder> emailEncoderList = optionalUser.get().getEmailEncoder();
+        Set<EmailEncoder> emailEncoderList = optionalUser.get().getEmailEncoder();
         
         String otp = OtpGenerator.generateOtp(6);
         simpleEmail(email,otp);
 
-        emailEncoder emailEncoder = new emailEncoder();
+        EmailEncoder emailEncoder = new EmailEncoder();
         emailEncoder.setUser(optionalUser.get());
         emailEncoder.setEncodedEmail(otp);
         emailEncoder.setExpiryDate(LocalDate.from(LocalDateTime.now().plusMinutes(1)));
@@ -81,9 +81,9 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public CheckCodeResponse CheckCode(String email,String code) {
         var user = userRepository.findByEmail(email).get();
-        Set<emailEncoder> emailEncoderList = user.getEmailEncoder();
+        Set<EmailEncoder> emailEncoderList = user.getEmailEncoder();
 
-        for(com.example.HospitalSystem.entity.usersAndRole.emailEncoder emailEncoder : emailEncoderList) {
+        for(EmailEncoder emailEncoder : emailEncoderList) {
             String codeEncoder=emailEncoder.getEncodedEmail();
             LocalDate expiryDate=emailEncoder.getExpiryDate();
             boolean status = emailEncoder.getStatus();
@@ -104,9 +104,9 @@ public class EmailServiceImpl implements EmailService {
         System.out.println("Deleted " + deletedCount + " expired email encoders");
     }
 
-    public void convertStatus(users user) {
+    public void convertStatus(Users user) {
         var emailEncodes = user.getEmailEncoder();
-        for(com.example.HospitalSystem.entity.usersAndRole.emailEncoder emailEncoder : emailEncodes) {
+        for(EmailEncoder emailEncoder : emailEncodes) {
             if(emailEncoder.getStatus()) {
                 emailEncoder.setStatus(false);
                 emailEncoderRepository.save(emailEncoder);
@@ -115,7 +115,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
     public void saveEncoder(String email){
-        emailEncoder emailEncoder = new emailEncoder();
+        EmailEncoder emailEncoder = new EmailEncoder();
         emailEncoder.setEncodedEmail(email);
         emailEncoder.setExpiryDate(from(LocalDateTime.now().plusMinutes(5)));
         emailEncoder.setStatus(true);

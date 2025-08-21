@@ -3,8 +3,8 @@ package com.example.HospitalSystem.service.impl;
 import com.example.HospitalSystem.dto.request.CreateSchedulesRequest;
 import com.example.HospitalSystem.dto.request.UpdatesSchedulesRequest;
 import com.example.HospitalSystem.dto.response.SchedulesResponse;
-import com.example.HospitalSystem.entity.appointments.schedules;
-import com.example.HospitalSystem.entity.usersAndRole.doctors;
+import com.example.HospitalSystem.entity.appointments.Schedules;
+import com.example.HospitalSystem.entity.usersAndRole.Doctors;
 import com.example.HospitalSystem.mapper.ScheduleMapper;
 import com.example.HospitalSystem.repository.DoctorRepository;
 import com.example.HospitalSystem.repository.ScheduleRepository;
@@ -32,8 +32,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<SchedulesResponse> getSchedules(Long doctorId) {
-        doctors doctors = doctorRepository.findById(doctorId).get();
-        List<schedules> schedules = doctors.getSchedulesList();
+        Doctors Doctors = doctorRepository.findById(doctorId).get();
+        List<Schedules> schedules = Doctors.getSchedulesList();
         List<SchedulesResponse> responses = schedules.stream()
                 .map(scheduleMapper::schedulesToResponse)
                 .collect(Collectors.toList());
@@ -43,15 +43,15 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public SchedulesResponse getDetailSchedules(Long Id) {
-        schedules schedules = scheduleRepository.findById(Id).get();
+        Schedules schedules = scheduleRepository.findById(Id).get();
         return scheduleMapper.schedulesToResponse(schedules);
     }
 
     @Override
     public SchedulesResponse createSchedule(CreateSchedulesRequest request) {
-        doctors doctors = doctorRepository.findDoctorById(request.getId());
-        List<schedules> schedules = doctors.getSchedulesList();
-        com.example.HospitalSystem.entity.appointments.schedules schedule = scheduleMapper.requestToSchedules(request);
+        Doctors Doctors = doctorRepository.findDoctorById(request.getId());
+        List<Schedules> schedules = Doctors.getSchedulesList();
+        Schedules schedule = scheduleMapper.requestToSchedules(request);
         scheduleRepository.save(schedule);
         schedules.add(schedule);
         return scheduleMapper.schedulesToResponse(schedule);
@@ -60,7 +60,7 @@ public class AdminServiceImpl implements AdminService {
 //    @PreAuthorize("isAuthenticated() and #request.userId == authentication.principal.id")
     @Override
     public SchedulesResponse UpdateSchedule(UpdatesSchedulesRequest request) {
-        schedules schedules = scheduleRepository.findById(request.getId()).get();
+        Schedules schedules = scheduleRepository.findById(request.getId()).get();
         scheduleMapper.updatesRequestToSchedules(request,schedules);
         scheduleRepository.save(schedules);
         return scheduleMapper.schedulesToResponse(schedules);

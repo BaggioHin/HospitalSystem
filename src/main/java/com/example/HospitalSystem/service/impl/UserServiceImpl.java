@@ -2,7 +2,7 @@ package com.example.HospitalSystem.service.impl;
 
 import com.example.HospitalSystem.dto.request.UserRequest;
 import com.example.HospitalSystem.dto.response.UserResponse;
-import com.example.HospitalSystem.entity.usersAndRole.users;
+import com.example.HospitalSystem.entity.usersAndRole.Users;
 import com.example.HospitalSystem.exception.AppException;
 import com.example.HospitalSystem.exception.ErrorCode;
 import com.example.HospitalSystem.mapper.UserMapper;
@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
 //    @PreAuthorize()
     public UserResponse getUserByUsername(String username) {
-        users user = userRepository.findByUsername(username)
+        Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         return userMapper.UserToUserResponse(user);
     }
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsByEmail(email)){
             throw new AppException(ErrorCode.EMAIL_EXISTED);
         }
-        users user = userMapper.UserRequestToUsers(userRequest);
+        Users user = userMapper.UserRequestToUsers(userRequest);
         return userMapper.UserToUserResponse(userRepository.save(user));
     }
 
@@ -63,9 +63,9 @@ public class UserServiceImpl implements UserService {
     public UserResponse updateUser(UserRequest userRequest) {
         var context = SecurityContextHolder.getContext();
         String username = context.getAuthentication().getName();
-        users user = userRepository.findByUsername(username)
+        Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
-        users userUpdated= userMapper.UserRequestToUsers(userRequest);
+        Users userUpdated= userMapper.UserRequestToUsers(userRequest);
         return userMapper.UserToUserResponse(userRepository.save(userUpdated));
     }
 

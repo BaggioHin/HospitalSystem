@@ -4,8 +4,8 @@ import com.example.HospitalSystem.dto.request.*;
 import com.example.HospitalSystem.dto.response.AuthenticationResponse;
 import com.example.HospitalSystem.dto.response.ChangePasswordResponse;
 import com.example.HospitalSystem.dto.response.IntrospectResponse;
-import com.example.HospitalSystem.entity.usersAndRole.invalidationTokenEntity;
-import com.example.HospitalSystem.entity.usersAndRole.users;
+import com.example.HospitalSystem.entity.usersAndRole.InvalidationTokenEntity;
+import com.example.HospitalSystem.entity.usersAndRole.Users;
 import com.example.HospitalSystem.exception.AppException;
 import com.example.HospitalSystem.exception.ErrorCode;
 import com.example.HospitalSystem.repository.UserRepository;
@@ -18,6 +18,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +49,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Value("${jwt.refreshable-duration}")
     protected long REFRESHABLE_DURATION;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -68,7 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
     }
 
-    public String generateToken(users user) {
+    public String generateToken(Users user) {
         JWSHeader header =new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet =new JWTClaimsSet.Builder()
@@ -78,7 +80,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .expirationTime(new Date(Instant.now().plus(VALID_DURATION, ChronoUnit.SECONDS).toEpochMilli()))
                 .jwtID(UUID.randomUUID().toString())
                 .claim("SCOPE", buildScope(user))
-//                .claim("specialties",)
+                .claim("Id",buildId(user))
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -114,7 +116,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String Jid = signedJWT.getJWTClaimsSet().getJWTID();
             Date expirationDate = signedJWT.getJWTClaimsSet().getExpirationTime();
 
-            invalidationTokenEntity invalidationTokenEntity = com.example.HospitalSystem.entity.usersAndRole.invalidationTokenEntity.builder()
+            InvalidationTokenEntity invalidationTokenEntity = InvalidationTokenEntity.builder()
                     .id(Jid).expiryTime(expirationDate).build();
 
             invalidationTokenRepository.save(invalidationTokenEntity);
@@ -134,7 +136,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new AppException(ErrorCode.UNAUTHENTICATED);
         }
 
-        invalidationTokenRepository.save(invalidationTokenEntity.builder()
+        invalidationTokenRepository.save(InvalidationTokenEntity.builder()
                 .id(Jid).expiryTime(expirationDate).build());
 
         var user = userRepository.findByUsername(username)
@@ -177,7 +179,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return signedJWT;
     }
 
-    public String buildScope(users user) {
+    public String buildScope(Users user) {
         StringBuilder builder = new StringBuilder();
         if(!CollectionUtils.isEmpty(user.getRoles())){
             user.getRoles().forEach(role -> {
@@ -186,6 +188,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             });
         }
         return builder.toString().trim();
+    }
+
+    public Long buildId(Users user){
+        return user.getId();
     }
 
 //    public String buildSpecialties(specialties specialties) {

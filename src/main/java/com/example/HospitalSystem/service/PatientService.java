@@ -13,7 +13,7 @@ public interface PatientService {
 
     PatientInfResponse addPatient(InfPatientRequest request);
 
-//    PatientInfResponse updatePatient(InfPatientRequest request,Long id);
+    PatientInfResponse updatePatient(InfPatientRequest request,Long id);
 
     Void deletePatient(Long patientId);
 }

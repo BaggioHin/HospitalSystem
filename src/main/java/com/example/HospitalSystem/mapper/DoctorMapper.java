@@ -3,17 +3,17 @@ package com.example.HospitalSystem.mapper;
 import com.example.HospitalSystem.dto.request.InfDoctorRequest;
 import com.example.HospitalSystem.dto.response.DoctorDetailResponse;
 import com.example.HospitalSystem.dto.response.DoctorResponse;
-import com.example.HospitalSystem.entity.usersAndRole.doctors;
+import com.example.HospitalSystem.entity.usersAndRole.Doctors;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface DoctorMapper {
-    DoctorResponse toDoctorResponse(doctors doctors);
+    DoctorResponse toDoctorResponse(Doctors Doctors);
 
-    DoctorDetailResponse toDoctorDetailResponse(doctors doctors);
+    DoctorDetailResponse toDoctorDetailResponse(Doctors Doctors);
 
-    doctors DtotoDoctor(InfDoctorRequest request);
+    Doctors DtotoDoctor(InfDoctorRequest request);
 
-    doctors updateDoctor(InfDoctorRequest updateInfDoctor, @MappingTarget doctors doctors);
+    Doctors updateDoctor(InfDoctorRequest updateInfDoctor, @MappingTarget Doctors Doctors);
 }

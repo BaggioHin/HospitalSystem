@@ -2,31 +2,31 @@ package com.example.HospitalSystem.mapper;
 
 import com.example.HospitalSystem.dto.request.*;
 import com.example.HospitalSystem.dto.response.UserResponse;
-import com.example.HospitalSystem.entity.usersAndRole.users;
+import com.example.HospitalSystem.entity.usersAndRole.Users;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    UserResponse UserToUserResponse(users user);
+    UserResponse UserToUserResponse(Users user);
 
-    users UserRequestToUsers(UserRequest userRequest);
+    Users UserRequestToUsers(UserRequest userRequest);
 
 //    users UserToUser(users user);
 
-    users DtoNurseToUser(InfNurseRequest nurses);
+    Users DtoNurseToUser(InfNurseRequest nurses);
 
-    users DtoDoctorsToUser(InfDoctorRequest doctors);
+    Users DtoDoctorsToUser(InfDoctorRequest doctors);
 
-    users DtoReceptionistToUser(InfReceptionistRequest receptionists);
+    Users DtoReceptionistToUser(InfReceptionistRequest receptionists);
 
-    users DtoPatientsToUser(InfPatientRequest patients);
+    Users DtoPatientsToUser(InfPatientRequest patients);
 
-    users UpdateUserByNurse(InfNurseRequest infNurseRequest, @MappingTarget users users);
+    Users UpdateUserByNurse(InfNurseRequest infNurseRequest, @MappingTarget Users users);
 
-    users UpdateUserByDoctor(InfDoctorRequest infDoctorRequest, @MappingTarget users users);
+    Users UpdateUserByDoctor(InfDoctorRequest infDoctorRequest, @MappingTarget Users users);
 
-    users UpdateUserByReceptionists(InfReceptionistRequest infReceptionistsRequest, @MappingTarget users users);
+    Users UpdateUserByReceptionists(InfReceptionistRequest infReceptionistsRequest, @MappingTarget Users users);
 
-    users UpdateUserByPatients(InfPatientRequest infPatientsRequest, @MappingTarget users users);
+    Users UpdateUserByPatients(InfPatientRequest infPatientsRequest, @MappingTarget Users users);
 }
