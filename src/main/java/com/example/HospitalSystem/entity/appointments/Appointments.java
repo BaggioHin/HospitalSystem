@@ -59,5 +59,4 @@ public class Appointments {
 
     @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL)
     private Deposits deposits;
-
 }

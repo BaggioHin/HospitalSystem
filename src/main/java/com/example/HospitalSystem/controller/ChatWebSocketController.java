@@ -5,6 +5,7 @@ import com.example.HospitalSystem.dto.response.MessageResponse;
 import com.example.HospitalSystem.entity.chat.ChatRoom;
 import com.example.HospitalSystem.entity.chat.Message;
 import com.example.HospitalSystem.entity.usersAndRole.Users;
+import com.example.HospitalSystem.repository.UserRepository;
 import com.example.HospitalSystem.service.ChatRoomService;
 import com.example.HospitalSystem.service.MessageService;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +23,15 @@ public class ChatWebSocketController {
     private final ChatRoomService chatRoomService;
     private final MessageService messageService;
     private final SimpMessagingTemplate messagingTemplate;
+    private final UserRepository userRepository;
 
     // Gửi tin nhắn vào 1 phòng
     @MessageMapping("/rooms/{roomId}/sendMessage")
     public void sendMessage(@DestinationVariable Long roomId, SendMessageRequest request, Principal principal) {
         ChatRoom room = chatRoomService.getRoomById(roomId).orElseThrow();
 
-        // TODO: lấy User từ principal (hoặc service user)
-        Users sender = new Users();
-        sender.setId(Long.parseLong(principal.getName())); // giả sử principal là userId
+        Users sender = userRepository.findByUsername(principal.getName())
+                .orElseThrow(() -> new RuntimeException("User not found: " + principal.getName()));
 
         Message saved = messageService.saveMessage(room, sender, request.getContent());
 

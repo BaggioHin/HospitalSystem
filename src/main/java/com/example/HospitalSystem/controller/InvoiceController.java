@@ -1,6 +1,5 @@
 package com.example.HospitalSystem.controller;
 
-import com.example.HospitalSystem.dto.request.AppointmentRequest;
 import com.example.HospitalSystem.dto.request.InvoiceEditRequest;
 import com.example.HospitalSystem.dto.request.InvoiceRequest;
 import com.example.HospitalSystem.dto.response.ApiResponse;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/invoice")
 @RestController
 public class InvoiceController {
+
     @Autowired
     InvoiceService invoiceService;
 

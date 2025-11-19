@@ -36,6 +36,10 @@ public class Payments {
     private String vnpTxnRef;
     private String vnpTransactionNo;
     private String paymentTime;
+    private String vnpBankCode;
+    private String vnpBankTranNo;
+    private String vnpCardType;
+    private String orderInfoFull;
 
     @ManyToOne
     @JoinColumn(name = "invoices_id")

@@ -14,4 +14,5 @@ public interface ChatRoomService {
     public List<ChatRoom> getRoomsByType(RoomType type);
     public List<RoomMember> getMembers(ChatRoom room);
     public List<RoomMember> getRoomsOfUser(Users user);
+    public ChatRoom saveRoom(ChatRoom room);
 }

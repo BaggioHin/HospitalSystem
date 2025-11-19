@@ -7,6 +7,6 @@ import java.util.Map;
 
 public interface PaymentService {
     String createPayment(Payments payment, String clientIp);
-
+    Map<String, String> handleVNPayIpn(Map<String, String> params);
     PaymentResultResponse handleVNPayReturn(Map<String, String> params);
 }

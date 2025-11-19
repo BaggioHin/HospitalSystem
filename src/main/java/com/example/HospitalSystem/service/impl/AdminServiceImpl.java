@@ -8,10 +8,10 @@ import com.example.HospitalSystem.entity.usersAndRole.Doctors;
 import com.example.HospitalSystem.mapper.ScheduleMapper;
 import com.example.HospitalSystem.repository.DoctorRepository;
 import com.example.HospitalSystem.repository.ScheduleRepository;
-import com.example.HospitalSystem.repository.UserRepository;
 import com.example.HospitalSystem.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +22,6 @@ import java.util.stream.Collectors;
 @Service
 public class AdminServiceImpl implements AdminService {
     @Autowired
-    UserRepository userRepository;
-    @Autowired
     DoctorRepository doctorRepository;
     @Autowired
     ScheduleRepository scheduleRepository;
@@ -31,6 +29,7 @@ public class AdminServiceImpl implements AdminService {
     ScheduleMapper scheduleMapper;
 
     @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<SchedulesResponse> getSchedules(Long doctorId) {
         Doctors Doctors = doctorRepository.findById(doctorId).get();
         List<Schedules> schedules = Doctors.getSchedulesList();
@@ -42,12 +41,14 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
     public SchedulesResponse getDetailSchedules(Long Id) {
         Schedules schedules = scheduleRepository.findById(Id).get();
         return scheduleMapper.schedulesToResponse(schedules);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
     public SchedulesResponse createSchedule(CreateSchedulesRequest request) {
         Doctors Doctors = doctorRepository.findDoctorById(request.getId());
         List<Schedules> schedules = Doctors.getSchedulesList();
@@ -67,6 +68,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteSchedule(Long Id) {
         scheduleRepository.deleteById(Id);
         log.info("Deleted Schedule :" + Id);

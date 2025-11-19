@@ -11,7 +11,7 @@ import java.nio.file.AccessDeniedException;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
-    private static final String MIN_ATTRIBUTE = "min";
+//    private static final String MIN_ATTRIBUTE = "min";
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse> handlingRuntimeException(Exception exception) {

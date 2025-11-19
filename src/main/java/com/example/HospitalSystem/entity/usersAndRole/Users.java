@@ -1,5 +1,6 @@
 package com.example.HospitalSystem.entity.usersAndRole;
 
+import com.example.HospitalSystem.entity.chat.RoomMember;
 import com.example.HospitalSystem.entity.statistics.audit_logs;
 import jakarta.persistence.*;
 import lombok.*;
@@ -53,4 +54,8 @@ public class Users {
 
     @OneToMany(mappedBy = "user")
     private Set<EmailEncoder> emailEncoder;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RoomMember> roomMembers;
+
 }

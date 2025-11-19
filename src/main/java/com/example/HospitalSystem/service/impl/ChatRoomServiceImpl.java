@@ -52,11 +52,17 @@ public class ChatRoomServiceImpl implements ChatRoomService {
 
     @Override
     public List<RoomMember> getMembers(ChatRoom room) {
+//        return roomMemberRepository.findById(room.getId());
         return roomMemberRepository.findByChatRoom(room);
     }
 
     @Override
     public List<RoomMember> getRoomsOfUser(Users user) {
         return roomMemberRepository.findByUser(user);
+    }
+
+    @Override
+    public ChatRoom saveRoom(ChatRoom room) {
+        return chatRoomRepository.save(room);
     }
 }

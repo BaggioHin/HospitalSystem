@@ -22,6 +22,8 @@ public class ChatRoom {
     @Enumerated(EnumType.STRING)
     private RoomType type;
 
+    private String creator;
+
     private String name; // tên phòng (nếu nhóm), 1-1 thì có thể null
 
     private LocalDateTime createdAt;

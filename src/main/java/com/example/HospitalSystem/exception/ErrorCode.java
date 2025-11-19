@@ -16,7 +16,8 @@ public enum ErrorCode {
     UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
     EMAIL_EXISTED(1008, "Email already existed", HttpStatus.CONFLICT),
     INVOICE_INVALID(1009, "Invoice does not belong to current user", HttpStatus.BAD_REQUEST),
-//    INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
+    INVOICE_NOT_FOUND(10010, "Invoice does not belong to current user", HttpStatus.NOT_FOUND),
+    INVOICE_ACCESS_DENIED(10011,"You do not have permission to access this invoice",HttpStatus.FORBIDDEN)
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

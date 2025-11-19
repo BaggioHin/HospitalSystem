@@ -69,6 +69,12 @@
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 
+        <!-- Messaging support (bắt buộc để dùng ChannelInterceptor, STOMP, SimpMessagingTemplate, v.v.) -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+        </dependency>
+
 		<!-- MapStruct & Lombok -->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
@@ -117,6 +123,12 @@
 			<version>0.11.5</version>
 			<scope>runtime</scope>
 		</dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.11.5</version>
+            <scope>runtime</scope>
+        </dependency>
 		<dependency>
 			<groupId>com.auth0</groupId>
 			<artifactId>java-jwt</artifactId>

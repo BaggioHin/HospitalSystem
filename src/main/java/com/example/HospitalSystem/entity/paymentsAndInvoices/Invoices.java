@@ -1,6 +1,7 @@
 package com.example.HospitalSystem.entity.paymentsAndInvoices;
 
 import com.example.HospitalSystem.constant.PaymentStatus;
+import com.example.HospitalSystem.entity.appointments.Appointments;
 import com.example.HospitalSystem.entity.usersAndRole.Patients;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,6 +31,9 @@ public class Invoices {
 
     @OneToMany(mappedBy = "invoice")
     private List<Payments> payments;
+
+    @OneToOne(mappedBy = "invoice", cascade = CascadeType.ALL)
+    private Appointments appointment;
 
     @OneToMany(mappedBy = "invoice")
     private List<InvoiceItems> invoiceItems;
